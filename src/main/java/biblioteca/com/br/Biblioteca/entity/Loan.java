@@ -11,7 +11,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table
 public class Loan {
 
     @Id
@@ -28,5 +27,5 @@ public class Loan {
     @JoinColumn(name="usuario_id", nullable=false)
     private Usuario usuario;
     @Column
-    private Double totalPrice;
+    private Long totalPrice;
 }

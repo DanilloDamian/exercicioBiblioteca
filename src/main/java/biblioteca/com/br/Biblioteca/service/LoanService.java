@@ -4,6 +4,8 @@ import biblioteca.com.br.Biblioteca.repository.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +16,9 @@ public class LoanService {
     private LoanRepository loanRepository;
 
     public Loan save(Loan loan){
+        Long totalPrice= calculaTotal(loan.getInitialDate(),loan.getFinalDate());
+        Long dayValue= loan.getBook().getDailyValue();
+        loan.setTotalPrice(totalPrice*dayValue);
         return this.loanRepository.save(loan);
     }
     public Loan findById(Long id){
@@ -31,6 +36,10 @@ public class LoanService {
             loanFound.setFinalDate(loan.getFinalDate());
             loanFound.setBook(loan.getBook());
             loanFound.setUsuario(loan.getUsuario());
+
+            Long totalPrice= calculaTotal(loan.getInitialDate(),loan.getFinalDate());
+            Long dayValue= loan.getBook().getDailyValue();
+            loanFound.setTotalPrice(totalPrice*dayValue);
             return this.loanRepository.save(loanFound);
         }
         return null;
@@ -46,4 +55,9 @@ public class LoanService {
             this.loanRepository.deleteById(id);
         }
     }
+
+    public long calculaTotal(LocalDate initialDate, LocalDate finalDate){
+        return ChronoUnit.DAYS.between(initialDate,finalDate);
+    }
+
 }

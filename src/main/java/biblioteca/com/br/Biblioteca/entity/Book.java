@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table
 public class Book {
 
     @Id
@@ -18,6 +17,6 @@ public class Book {
     @Column
     private String title;
     @Column
-    private Double dailyValue;
+    private Long dailyValue;
 
 }
